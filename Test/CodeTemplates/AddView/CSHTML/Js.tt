@@ -1,0 +1,157 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#@ output extension=".js" #>
+<#@ assembly name="System.ComponentModel.DataAnnotations" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data.Entity" #>
+<#@ assembly name="System.Data.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.ComponentModel.DataAnnotations" #>
+<#@ import namespace="System.Data.Linq.Mapping" #>
+<#@ import namespace="System.Data.Objects.DataClasses" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="Microsoft.VisualStudio.Web.Mvc.Scaffolding.BuiltIn" #>
+<#
+    MvcTextTemplateHost mvcHost = MvcTemplateHost;
+#>
+
+jQuery.validator.addMethod("regex",
+       function (value, element, params) {
+           var exp = new RegExp(params);
+           return exp.test(value);
+       },
+       "格式错误");
+
+$().ready(function () {
+    $("#validateForm").validate({
+        rules: {
+<#
+    foreach (ModelProperty property in GetModelProperties(mvcHost.ViewDataType)) {
+#>
+<#
+        if (property.AttrCount > 0) {
+#>
+            <#=                property.Name #>: {
+<#
+            if (property.IsRequired) {
+#>
+                required: true,
+<#
+            }
+#>
+<#
+            if (property.HasRegex) {
+#>
+                regex: "<#=                    property.RegexPattern #>",
+<#
+            }
+#>
+<#
+            if (property.MinLength!=0) {
+#>
+                minlength: <#=                    property.MinLength #>,
+<#
+            }
+#>
+<#
+            if (property.MaxLength!=0) {
+#>
+                maxlength: <#=                    property.MaxLength #>,
+<#
+            }
+#>
+            },
+<#
+        }
+#>
+<#
+    }
+#>
+        },
+        messages: {
+            firstname: "It is required.",
+        }
+    });
+});
+<#+
+    // Describes the information about a property on the model
+    class ModelProperty {
+        public string Name { get; set; }
+        public int AttrCount { get; set; }   //Attribute的总数，如果没有Attr将不为此控件生成JS
+        public bool IsRequired { get; set; }
+        public string RequiredMsg {get; set; }
+        public bool HasRegex { get; set; }
+        public string RegexPattern { get; set; }
+        public string RegexMsg { get; set; }
+        public int MinLength { get; set; }
+        public string MinLengthMsg { get; set; }
+        public int MaxLength { get; set; }
+        public string MaxLengthMsg { get; set; }
+    }
+
+    List<ModelProperty> GetModelProperties(Type type) {
+        List<ModelProperty> results = new List<ModelProperty>();
+
+        foreach (PropertyInfo prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
+            if (prop.GetGetMethod() != null && prop.GetIndexParameters().Length == 0) {
+                var modelProperty = new ModelProperty();
+                modelProperty.Name = prop.Name;
+                IsRequired(prop , ref modelProperty);
+                HasRegex(prop , ref modelProperty);
+                MinAndMaxLength(prop , ref modelProperty);
+                results.Add(modelProperty);
+            }
+        }
+
+        return results;
+    }
+
+    void IsRequired(PropertyInfo property , ref ModelProperty model) {
+
+        foreach (object attribute in property.GetCustomAttributes(true)) {
+            if (attribute is RequiredAttribute) {
+                model.IsRequired = true;
+                model.AttrCount ++;
+                model.RegexMsg = (attribute as RequiredAttribute).ErrorMessage;
+            }
+        }
+    }
+
+    void HasRegex(PropertyInfo property , ref ModelProperty model) {
+
+        foreach (object attribute in property.GetCustomAttributes(true)) {
+            if (attribute is RegularExpressionAttribute) {
+                model.HasRegex = true;
+                model.AttrCount ++;
+                model.RegexPattern = (attribute as RegularExpressionAttribute).Pattern.Replace("\\","\\\\");
+                model.RegexMsg = (attribute as RegularExpressionAttribute).ErrorMessage;
+            }
+        }
+    }
+
+    void MinAndMaxLength(PropertyInfo property , ref ModelProperty model) {
+
+        foreach (object attribute in property.GetCustomAttributes(true)) {
+            var  minLength  = attribute as MinLengthAttribute;
+            if (minLength!=null) {
+                model.MinLength = minLength.Length;
+                model.AttrCount ++;
+                model.RegexMsg = minLength.ErrorMessage;
+            }
+            var  maxLength  = attribute as MaxLengthAttribute;
+            if (maxLength!=null) {
+                model.MaxLength = maxLength.Length;
+                model.AttrCount ++;
+                model.RegexMsg = maxLength.ErrorMessage;
+            }
+        }
+    }
+
+
+    MvcTextTemplateHost MvcTemplateHost {
+        get {
+            return (MvcTextTemplateHost)Host;
+        }
+    }
+#>

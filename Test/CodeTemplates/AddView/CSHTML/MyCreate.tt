@@ -1,0 +1,174 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#@ output extension=".cshtml" #>
+<#@ assembly name="System.ComponentModel.DataAnnotations" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data.Entity" #>
+<#@ assembly name="System.Data.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.ComponentModel.DataAnnotations" #>
+<#@ import namespace="System.Data.Linq.Mapping" #>
+<#@ import namespace="System.Data.Objects.DataClasses" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="Microsoft.VisualStudio.Web.Mvc.Scaffolding.BuiltIn" #>
+<#
+    MvcTextTemplateHost mvcHost = MvcTemplateHost;
+#>
+@model <#=        mvcHost.ViewDataTypeName #>
+<#
+    // The following chained if-statement outputs the file header code and markup for a partial view, a content page, or a regular view.
+if                            (mvcHost.IsPartialView) {
+#>
+
+<#
+    } else if(mvcHost.IsContentPage) {
+#>
+
+@{
+    ViewBag.Title = "<#=            mvcHost.ViewName#>";
+<#
+        if (!String.IsNullOrEmpty(mvcHost.MasterPageFile)) {
+#>
+    Layout = "<#=                mvcHost.MasterPageFile#>";
+<#
+        }
+#>
+}
+
+<#
+    } else {
+#>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title><#=            mvcHost.ViewName #></title>
+</head>
+<body>
+<#
+        PushIndent("    ");
+    }
+#>
+<script src="~/ViewJs/AAA/<#= mvcHost.ViewName #>.js"></script>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="box">
+                <div class="box-body box-body-nopadding">
+                    @using (Html.BeginForm("<#=        mvcHost.ViewName #>", "AAA", FormMethod.Post, new { @id = "validateForm", @class = "form-horizontal form-bordered form-validate" })) {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+<#
+    foreach (ModelProperty property in GetModelProperties(mvcHost.ViewDataType)) {
+        if (!property.IsPrimaryKey) {
+#>
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(model => model.<#=                property.Name #>)
+                            </div>
+                            <div class="controls">
+<#
+            if (property.IsDecimal) {
+#>
+                                <div class="input-append input-prepend">
+                                    <span class="add-on">￥</span>
+                                    @Html.MyTextBoxFor(model => model.<#=                    property.Name #>)
+                                    <span class="add-on">.00</span>
+                                </div>
+<#
+            } else {
+#>
+                                @Html.MyTextBoxFor(model => model.<#=                    property.Name #>)
+<#
+            }
+#>
+                            </div>
+                        </div>
+<#
+        }
+    }
+#>
+                        <input type="submit" class="button button-basic-blue" value="Submit">
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<#
+    if(mvcHost.IsContentPage && mvcHost.ReferenceScriptLibraries) {
+#>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<#
+    }
+#>
+
+<#+
+
+    class ModelProperty {
+        public string Name { get; set; }
+        public bool IsPrimaryKey { get; set; }
+        public bool IsDecimal { get; set; }
+    }
+
+    bool IsPrimaryKey(PropertyInfo property) {
+        if (string.Equals(property.Name, "id", StringComparison.OrdinalIgnoreCase)) {  // 只要拼做ID的都认为是主键
+            return true;
+        }
+
+        foreach (object attribute in property.GetCustomAttributes(true)) {
+            if (attribute is KeyAttribute) {  // WCF RIA Services and EF Code First explicit
+                return true;
+            }
+        }
+    
+        return false;
+    }
+
+    bool IsDecimal(Type type) {
+        if(type == typeof(decimal)) {
+            return true;
+        }
+        return false;
+    }
+
+    List<ModelProperty> GetModelProperties(Type type) {
+        List<ModelProperty> results = GetEligibleProperties(type);
+
+        return results;
+    }
+
+    List<ModelProperty> GetEligibleProperties(Type type) {
+        List<ModelProperty> results = new List<ModelProperty>();
+
+        foreach (PropertyInfo prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
+            if (prop.GetGetMethod() != null && prop.GetIndexParameters().Length == 0) {
+
+                results.Add(new ModelProperty {
+                        Name = prop.Name,
+                        IsPrimaryKey = IsPrimaryKey(prop),
+                        IsDecimal = IsDecimal(prop.PropertyType),
+                        });
+            }
+        }
+
+        return results;
+    }
+
+    MvcTextTemplateHost MvcTemplateHost {
+        get {
+            return (MvcTextTemplateHost)Host;
+        }
+    }
+#>

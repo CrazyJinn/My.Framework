@@ -1,0 +1,60 @@
+﻿@model Test.Models.Class1
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="box">
+                <div class="box-body box-body-nopadding">
+                    <form method="post" class="form-horizontal form-bordered form-validate" id="a">
+                        @Html.ValidationSummary(true)
+                        <div class="control-group">
+                            <div class="controls">
+                                @Html.MyTextBox(new TextBox { Name = "111", PlaceholderStr = "place holder" })
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="controls">
+                                <div class="input-append input-prepend">
+                                    <span class="add-on">$</span>
+                                    <input type="text" placeholder="XX" class="input-small">
+                                    <span class="add-on">.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="box">
+                <div class="box-body box-body-nopadding">
+                    <form action="#" method="POST" class='form-horizontal form-bordered form-validate' id="bb">
+                        <div class="control-group">
+                            <div class="controls">
+                                <input type="text" name="textfield" id="textfield" class="input-xlarge" required="true" minlength="2" data-rule-number="true" placeholder="Price">
+                            </div>
+                            <div class="controls">
+                                <input type="text" name="emailfield" id="emailfield" class="input-xlarge" data-rule-email="true" required="true" placeholder="Price">
+                                <input type="checkbox" class="checkbox error" id="agree" name="agree">
+                            </div>
+                        </div>
+
+                        <input type="submit" class="button button-basic-blue" value="Submit">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
