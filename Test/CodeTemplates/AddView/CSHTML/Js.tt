@@ -61,6 +61,14 @@ $().ready(function () {
 <#
             }
 #>
+<#
+            if (property.RangeMaxNumber!=0) {
+#>
+                max: <#=                    property.RangeMaxNumber #>,
+                min: <#=                    property.RangeMinNumber #>,
+<#
+            }
+#>
             },
 <#
         }
@@ -71,6 +79,17 @@ $().ready(function () {
         },
         messages: {
             firstname: "It is required.",
+        },
+        errorElement: 'span',
+        errorClass: 'help-block error',
+        errorPlacement: function (error, element) {
+            element.parents('.controls').append(error);
+        },
+        highlight: function (label) {
+            $(label).closest('.control-group').removeClass('error success').addClass('error');
+        },
+        success: function (label) {
+            label.addClass('valid').closest('.control-group').removeClass('error success').addClass('success');
         }
     });
 });
@@ -78,16 +97,25 @@ $().ready(function () {
     // Describes the information about a property on the model
     class ModelProperty {
         public string Name { get; set; }
-        public int AttrCount { get; set; }   //Attribute的总数，如果没有Attr将不为此控件生成JS
+        //Attribute的总数，如果没有Attr将不为此控件生成JS
+        public int AttrCount { get; set; }  
+        //RequiredAttribute
         public bool IsRequired { get; set; }
         public string RequiredMsg {get; set; }
+        //RegularExpressionAttribute
         public bool HasRegex { get; set; }
         public string RegexPattern { get; set; }
         public string RegexMsg { get; set; }
+        //MinLengthAttribute
         public int MinLength { get; set; }
         public string MinLengthMsg { get; set; }
+        //MaxLengthAttribute
         public int MaxLength { get; set; }
         public string MaxLengthMsg { get; set; }
+        //RangeAttribute
+        public int RangeMinNumber { get; set; }
+        public int RangeMaxNumber { get; set; }
+        public string RangeMsg { get; set; }
     }
 
     List<ModelProperty> GetModelProperties(Type type) {
@@ -97,9 +125,10 @@ $().ready(function () {
             if (prop.GetGetMethod() != null && prop.GetIndexParameters().Length == 0) {
                 var modelProperty = new ModelProperty();
                 modelProperty.Name = prop.Name;
-                IsRequired(prop , ref modelProperty);
-                HasRegex(prop , ref modelProperty);
+                Required(prop , ref modelProperty);
+                Regex(prop , ref modelProperty);
                 MinAndMaxLength(prop , ref modelProperty);
+                Range(prop , ref modelProperty);
                 results.Add(modelProperty);
             }
         }
@@ -107,7 +136,7 @@ $().ready(function () {
         return results;
     }
 
-    void IsRequired(PropertyInfo property , ref ModelProperty model) {
+    void Required(PropertyInfo property , ref ModelProperty model) {
 
         foreach (object attribute in property.GetCustomAttributes(true)) {
             if (attribute is RequiredAttribute) {
@@ -118,7 +147,7 @@ $().ready(function () {
         }
     }
 
-    void HasRegex(PropertyInfo property , ref ModelProperty model) {
+    void Regex(PropertyInfo property , ref ModelProperty model) {
 
         foreach (object attribute in property.GetCustomAttributes(true)) {
             if (attribute is RegularExpressionAttribute) {
@@ -148,6 +177,18 @@ $().ready(function () {
         }
     }
 
+    void Range(PropertyInfo property , ref ModelProperty model) {
+
+        foreach (object attribute in property.GetCustomAttributes(true)) {
+            var  range  = attribute as RangeAttribute;
+            if (range!=null) {
+                model.AttrCount ++;
+                model.RangeMaxNumber = (int)range.Maximum;
+                model.RangeMinNumber = (int)range.Minimum;
+                model.RegexMsg = range.ErrorMessage;
+            }
+        }
+    }
 
     MvcTextTemplateHost MvcTemplateHost {
         get {
