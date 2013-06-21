@@ -14,6 +14,10 @@ namespace My.Common
 
         public static IEnumerable<SelectListItem> GetSelectItem(Type type, string model)
         {
+            if (type.IsEnum == false) {
+                throw new Exception("必须是枚举");
+            }
+
             var itemList = new List<SelectListItem>();
             foreach (var item in Enum.GetValues(type))
             {
