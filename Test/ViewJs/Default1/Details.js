@@ -14,11 +14,14 @@ $().ready(function () {
             },
             string1: {
                 minlength: 2,
-                maxlength: 5,
+                maxlength: 4,
             },
             string2: {
                 required: true,
                 regex: "\\d{3}",
+            },
+            int1: {
+                required: true,
             },
             date: {
                 required: true,
@@ -39,5 +42,4 @@ $().ready(function () {
             label.addClass('valid').closest('.control-group').removeClass('error success').addClass('success');
         }
     });
-
 });

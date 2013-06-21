@@ -14,12 +14,20 @@ namespace System.Web.Mvc
             return MyTextBox(htmlHelper, textBox, null);
         }
 
+        public static MvcHtmlString MyTextBox(this HtmlHelper htmlHelper, TextBox textBox, object htmlAttributes) {
+            return MyTextBox(htmlHelper, textBox, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+        }
+
         public static MvcHtmlString MyTextBox(this HtmlHelper htmlHelper, TextBox textBox, IDictionary<string, object> htmlAttributes) {
             return TextBoxHelper(htmlHelper, textBox, htmlAttributes);
         }
 
         public static MvcHtmlString MyTextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression) {
             return MyTextBoxFor(htmlHelper, expression, null);
+        }
+
+        public static MvcHtmlString MyTextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, object htmlAttributes) {
+            return MyTextBoxFor(htmlHelper, expression, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
         public static MvcHtmlString MyTextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IDictionary<string, object> htmlAttributes) {
@@ -51,11 +59,7 @@ namespace System.Web.Mvc
             return TextBoxHelper(htmlHelper, textBox, htmlAttributes);
         }
 
-
-
-
         private static MvcHtmlString TextBoxHelper(this HtmlHelper htmlHelper, TextBox textBox, IDictionary<string, object> htmlAttributes) {
-
 
             MyTagBuilder tagBuilder = new MyTagBuilder("input");
 
@@ -67,14 +71,8 @@ namespace System.Web.Mvc
 
                     break;
                 case TextBoxType.Int:
-                    if (textBox.RangeMax == 0 || textBox.RangeMin == 0) {
-                        tagBuilder.MergeAttribute("type", "number");
-                    }
-                    else {
-                        tagBuilder.MergeAttribute("type", "range");
-                        tagBuilder.MergeAttribute("min", textBox.RangeMin.ToString());
-                        tagBuilder.MergeAttribute("max", textBox.RangeMax.ToString());
-                    }
+                    tagBuilder.MergeAttribute("type", "text");
+                    tagBuilder.MergeAttribute("class", "spinner input-mini");
                     break;
                 case TextBoxType.Decimal:
                     tagBuilder.MergeAttribute("type", "text");
