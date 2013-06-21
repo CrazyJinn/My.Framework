@@ -44,8 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumHelper.cs" />
-    <Compile Include="HTML\MySelectExtensions.cs" />
-    <Compile Include="HTML\MyTextboxExtensions.cs" />
     <Compile Include="Attribute\PlaceholderAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

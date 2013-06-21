@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HtmlAttributeBase.cs" />
+    <Compile Include="HtmlHelper\MySelectExtensions.cs" />
     <Compile Include="HtmlHelper\MyTextBoxExtensions.cs" />
     <Compile Include="MyTagBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -53,6 +54,9 @@
       <Project>{7a124fc2-27a3-4709-9c72-68330c330f63}</Project>
       <Name>My.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

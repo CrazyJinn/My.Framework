@@ -26,6 +26,12 @@ namespace Test.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Details(Class1 class1)
+        {
+            return View();
+        }
+
         //
         // GET: /Default1/Create
 

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
-namespace My.HTML
-{
-    class ReadMe
-    {
-    }
-}
+
+1、object htmlAttributes用法：new { @id = "aaa", @class = "bbb" }

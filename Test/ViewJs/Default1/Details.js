@@ -22,6 +22,8 @@ $().ready(function () {
             },
             int1: {
                 required: true,
+                max: 10,
+                min: 1,
             },
             date: {
                 required: true,
