@@ -4,25 +4,14 @@
     ViewBag.Title = "Details";
 }
 
-<link rel="stylesheet" href="~/css/jquery-ui.css">
-<!-- jQuery UI Theme -->
-<link rel="stylesheet" href="~/css/jquery.ui.theme.css">
-@*<link rel="stylesheet" href="~/css/style.css">*@
-
-
-<script src="~/js/jquery.ui.widget.min.js"></script>
-<script src="~/js/jquery.ui.mouse.min.js"></script>
-<script src="~/js/jquery.ui.slider.min.js"></script>
-<script src="~/js/jquery.ui.spinner.min.js"></script>
-
-<script src="~/ViewJs/Default1/Details.js"></script>
+<script src="~/ViewJs/AAA/Details.js"></script>
 
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
             <div class="box">
                 <div class="box-body box-body-nopadding">
-                    @using (Html.BeginForm("Details", "Default1", FormMethod.Post, new { @id = "validateForm", @class = "form-horizontal form-bordered form-validate" })) {
+                    @using (Html.BeginForm("Details", "AAA", FormMethod.Post, new { @id = "validateForm", @class = "form-horizontal form-bordered form-validate" })) {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true)
                         <div class="control-group">
@@ -54,7 +43,10 @@
                                 @Html.LabelFor(model => model.enum1)
                             </div>
                             <div class="controls">
-                                @Html.MyDropDownListFor(model => model.enum1)
+
+                                <div class="input-xlarge">
+                                    @Html.MyDropDownListFor(model => model.enum1)
+                                </div>
                             </div>
                         </div>
                         <div class="control-group">
@@ -77,8 +69,6 @@
                                 </div>
                             </div>
                         </div>
-                        
-
                         <input type="submit" class="button button-basic-blue" value="Submit">
                     }
                 </div>

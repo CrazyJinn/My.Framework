@@ -18,7 +18,7 @@
 @model <#=        mvcHost.ViewDataTypeName #>
 <#
     // The following chained if-statement outputs the file header code and markup for a partial view, a content page, or a regular view.
-if                            (mvcHost.IsPartialView) {
+if                                                        (mvcHost.IsPartialView) {
 #>
 
 <#
@@ -56,7 +56,7 @@ if                            (mvcHost.IsPartialView) {
         PushIndent("    ");
     }
 #>
-<script src="~/ViewJs/AAA/<#= mvcHost.ViewName #>.js"></script>
+<script src="~/ViewJs/AAA/<#=        mvcHost.ViewName #>.js"></script>
 
 <div class="container-fluid">
     <div class="row-fluid">
@@ -82,6 +82,18 @@ if                            (mvcHost.IsPartialView) {
                                     <span class="add-on">￥</span>
                                     @Html.MyTextBoxFor(model => model.<#=                    property.Name #>)
                                     <span class="add-on">.00</span>
+                                </div>
+<#
+            } else if (property.IsEnum){
+#>
+                                <div class="input-xlarge">
+                                    @Html.MyDropDownListFor(model => model.<#=                    property.Name #>)
+                                </div>
+<#
+            } else if (property.IsDateTime){
+#>
+                                <div class="input-xlarge">
+                                    @Html.MyDropDownListFor(model => model.<#=                    property.Name #>)
                                 </div>
 <#
             } else {
@@ -120,6 +132,8 @@ if                            (mvcHost.IsPartialView) {
         public string Name { get; set; }
         public bool IsPrimaryKey { get; set; }
         public bool IsDecimal { get; set; }
+        public bool IsEnum { get; set; }
+        public bool IsDateTime { get; set; }
     }
 
     bool IsPrimaryKey(PropertyInfo property) {
@@ -143,13 +157,21 @@ if                            (mvcHost.IsPartialView) {
         return false;
     }
 
-    List<ModelProperty> GetModelProperties(Type type) {
-        List<ModelProperty> results = GetEligibleProperties(type);
-
-        return results;
+    bool IsEnum(Type type) {
+        if(type.IsEnum == true) {
+            return true;
+        }
+        return false;
     }
 
-    List<ModelProperty> GetEligibleProperties(Type type) {
+    bool IsDateTime(Type type){
+        if(type == typeof(DateTime)){
+            return true;
+        }
+        return false;
+    }
+
+    List<ModelProperty> GetModelProperties(Type type) {
         List<ModelProperty> results = new List<ModelProperty>();
 
         foreach (PropertyInfo prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
@@ -159,6 +181,8 @@ if                            (mvcHost.IsPartialView) {
                         Name = prop.Name,
                         IsPrimaryKey = IsPrimaryKey(prop),
                         IsDecimal = IsDecimal(prop.PropertyType),
+                        IsEnum = IsEnum(prop.PropertyType),
+                        IsDateTime = IsDateTime(prop.PropertyType),
                         });
             }
         }
