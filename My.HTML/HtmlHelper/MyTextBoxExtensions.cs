@@ -36,11 +36,15 @@ namespace System.Web.Mvc
             textBox.Name = ExpressionHelper.GetExpressionText(expression);
 
             Type intType = typeof(int);
+            Type dateTimeType = typeof(DateTime);
             ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
             foreach (PropertyInfo prop in metadata.ContainerType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
                 if (prop.Name == metadata.PropertyName) {
                     if (prop.PropertyType == intType) {
                         textBox.TextBoxType = TextBoxType.Int;
+                    }
+                    else if (prop.PropertyType == dateTimeType) {
+                        textBox.TextBoxType = TextBoxType.DateTime;
                     }
                     foreach (object attribute in prop.GetCustomAttributes(true)) {
                         var placeholder = attribute as PlaceholderAttribute;
@@ -65,20 +69,23 @@ namespace System.Web.Mvc
 
             HtmlAttributeBase.MergeHtmlAttributeBase(ref tagBuilder, textBox);
 
-
+            //默认Type为Text。一般来说这个控件里面都应该是这个
+            tagBuilder.MergeAttribute("type", "text");
             switch (textBox.TextBoxType) {
                 case TextBoxType.String:
 
                     break;
                 case TextBoxType.Int:
-                    tagBuilder.MergeAttribute("type", "text");
                     tagBuilder.MergeAttribute("class", "spinner input-mini");
                     break;
                 case TextBoxType.Decimal:
-                    tagBuilder.MergeAttribute("type", "text");
                     break;
                 case TextBoxType.Area:
 
+                    break;
+                case TextBoxType.DateTime:
+
+                    tagBuilder.MergeAttribute("class", "input-medium datepick");
                     break;
                 default:
                     tagBuilder.MergeAttribute("type", "text");
@@ -131,5 +138,9 @@ namespace System.Web.Mvc
         /// 文本域输入框
         /// </summary>
         Area = 8,
+        /// <summary>
+        /// 日期输入框
+        /// </summary>
+        DateTime = 16,
     }
 }
