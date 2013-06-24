@@ -39,13 +39,10 @@ namespace System.Web.Mvc
 
         private static MvcHtmlString SelectHelper(this HtmlHelper htmlHelper, Select select, IDictionary<string, object> htmlAttributes) {
 
-            bool usedViewData = false;
-
             if (select.SelectList == null) {
                 var o = htmlHelper.ViewData.Eval(select.Name);
                 IEnumerable<SelectListItem> selectList = o as IEnumerable<SelectListItem>;
                 select.SelectList = selectList;
-                usedViewData = true;
             }
 
             StringBuilder listItemBuilder = new StringBuilder();
@@ -57,6 +54,8 @@ namespace System.Web.Mvc
                 InnerHtml = listItemBuilder.ToString()
             };
 
+            //使用Chosen控件。源码地址：http://harvesthq.github.io/chosen/
+            tagBuilder.MergeAttribute("class", "chosen-select");
 
             tagBuilder.MergeAttributes(htmlAttributes, true);
 
