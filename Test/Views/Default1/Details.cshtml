@@ -6,9 +6,6 @@
 <script src="~/ViewJs/Default1/Details.js"></script>
 
 
-<script src="~/ViewJs/Default1/Details.js"></script>
-
-
 <link rel="stylesheet" href="~/css/jquery-ui.css">
 <!-- jQuery UI Theme -->
 <link rel="stylesheet" href="~/css/jquery.ui.theme.css">
@@ -24,6 +21,7 @@
 
 <link rel="stylesheet" href="~/css/datepicker.css">
 <script src="~/js/bootstrap-datepicker.min.js"></script>
+
 
 
 <div class="container-fluid">
@@ -89,9 +87,29 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label for="textfield" class="control-label">Datepicker</label>
+                            <div class="control-label">
+                                @Html.LabelFor(model => model.booltry)
+                            </div>
                             <div class="controls">
-                                <div id="datepicker"></div>
+                                <div class="input-xlarge">
+                                    <label class='checkbox-uniformed'>
+                                        @Html.MyCheckBoxFor(model => model.booltry)
+                                        aaaaaa
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="textfield" class="control-label">Checkboxes</label>
+                            <div class="controls">
+                                <label class='checkbox-uniformed'>
+                                    <input type="checkbox" name="checkbox" class='uniform-me'>
+                                    Lorem ipsum eiusmod
+                                </label>
+                                <label class='checkbox-uniformed'>
+                                    <input type="checkbox" name="checkbox" class='uniform-me'>
+                                    ipsum eiusmod
+                                </label>
                             </div>
                         </div>
                         <input type="submit" class="button button-basic-blue" value="Submit">
