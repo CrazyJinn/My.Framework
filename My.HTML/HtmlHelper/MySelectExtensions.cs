@@ -14,9 +14,16 @@ namespace System.Web.Mvc
 {
     public static class SelectExtensions
     {
-        public static MvcHtmlString MyDropDownList(this HtmlHelper htmlHelper, string name, Type ModelType, string displayText) {
-            var dataSouce = EnumHelper.GetSelectItem(ModelType, displayText);
-            return System.Web.Mvc.Html.SelectExtensions.DropDownList(htmlHelper, name, dataSouce);
+        public static MvcHtmlString MyDropDownList(this HtmlHelper htmlHelper, Select select) {
+            return MyDropDownList(htmlHelper, select, null);
+        }
+
+        public static MvcHtmlString MyDropDownList(this HtmlHelper htmlHelper, Select select, object htmlAttributes) {
+            return MyDropDownList(htmlHelper, select, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+        }
+
+        public static MvcHtmlString MyDropDownList(this HtmlHelper htmlHelper, Select select, IDictionary<string, object> htmlAttributes) {
+            return SelectHelper(htmlHelper, select, htmlAttributes);
         }
 
         public static MvcHtmlString MyDropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression) {
@@ -29,9 +36,9 @@ namespace System.Web.Mvc
 
         public static MvcHtmlString MyDropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IDictionary<string, object> htmlAttributes) {
             ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
-         
+
             Select select = new Select();
-            select.Name = ExpressionHelper.GetExpressionText(expression);   
+            select.Name = ExpressionHelper.GetExpressionText(expression);
             select.SelectList = EnumHelper.GetSelectItem(metadata.ModelType, "");
 
             return SelectHelper(htmlHelper, select, htmlAttributes);
