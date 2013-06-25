@@ -37,6 +37,9 @@ namespace Test.Models
 
         [Placeholder("Enter Money")]
         public decimal money { get; set; }
+
+        [Required]
+        public bool booltry { get; set; }
     }
 
     public enum EnumTest

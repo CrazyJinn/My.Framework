@@ -90,10 +90,10 @@ if                                                        (mvcHost.IsPartialView
                                     @Html.MyDropDownListFor(model => model.<#=                    property.Name #>)
                                 </div>
 <#
-            } else if (property.IsDateTime){
+            } else if (property.IsBool){
 #>
                                 <div class="input-xlarge">
-                                    @Html.MyDropDownListFor(model => model.<#=                    property.Name #>)
+                                    @Html.MyCheckBoxFor(model => model.<#=                    property.Name #>)
                                 </div>
 <#
             } else {
@@ -133,7 +133,7 @@ if                                                        (mvcHost.IsPartialView
         public bool IsPrimaryKey { get; set; }
         public bool IsDecimal { get; set; }
         public bool IsEnum { get; set; }
-        public bool IsDateTime { get; set; }
+        public bool IsBool { get; set; }
     }
 
     bool IsPrimaryKey(PropertyInfo property) {
@@ -164,8 +164,8 @@ if                                                        (mvcHost.IsPartialView
         return false;
     }
 
-    bool IsDateTime(Type type){
-        if(type == typeof(DateTime)){
+    bool IsBool(Type type){
+        if(type == typeof(bool)){
             return true;
         }
         return false;
@@ -182,7 +182,7 @@ if                                                        (mvcHost.IsPartialView
                         IsPrimaryKey = IsPrimaryKey(prop),
                         IsDecimal = IsDecimal(prop.PropertyType),
                         IsEnum = IsEnum(prop.PropertyType),
-                        IsDateTime = IsDateTime(prop.PropertyType),
+                        IsBool = IsBool(prop.PropertyType),
                         });
             }
         }

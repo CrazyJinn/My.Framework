@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HtmlAttributeBase.cs" />
+    <Compile Include="HtmlHelper\MyCheckBoxExtensions.cs" />
     <Compile Include="HtmlHelper\MySelectExtensions.cs" />
     <Compile Include="HtmlHelper\MyTextBoxExtensions.cs" />
     <Compile Include="MyTagBuilder.cs" />
