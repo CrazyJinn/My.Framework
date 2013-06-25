@@ -16,6 +16,9 @@ namespace System.Web.Mvc
 
         public bool IsDisable { get; set; }
 
+        /// <summary>
+        /// 向TagBuilder中添加基本的元素属性:ID\Name\Value\IsDisable
+        /// </summary>
         internal static void MergeHtmlAttributeBase(ref MyTagBuilder tagBuilder, HtmlAttributeBase htmlAttribute) {
 
             if (String.IsNullOrEmpty(htmlAttribute.Name)) {
