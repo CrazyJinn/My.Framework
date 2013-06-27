@@ -18,7 +18,7 @@
 @model <#=        mvcHost.ViewDataTypeName #>
 <#
     // The following chained if-statement outputs the file header code and markup for a partial view, a content page, or a regular view.
-if                                                        (mvcHost.IsPartialView) {
+if                                                                    (mvcHost.IsPartialView) {
 #>
 
 <#
@@ -68,8 +68,12 @@ if                                                        (mvcHost.IsPartialView
                         @Html.ValidationSummary(true)
 <#
     foreach (ModelProperty property in GetModelProperties(mvcHost.ViewDataType)) {
-        if (!property.IsPrimaryKey) {
+        if (property.IsPrimaryKey) {
 #>
+                        @Html.HiddenFor(model => model.<#=                property.Name #>)
+<#
+        } else {
+            #>
                         <div class="control-group">
                             <div class="control-label">
                                 @Html.LabelFor(model => model.<#=                property.Name #>)
