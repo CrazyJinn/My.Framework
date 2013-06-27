@@ -9,8 +9,7 @@ namespace My.Common
     {
         public string Msg { get; set; }
 
-        public PlaceholderAttribute(string msg)
-        {
+        public PlaceholderAttribute(string msg) {
             this.Msg = msg;
         }
     }
