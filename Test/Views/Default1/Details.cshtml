@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Details";
 }
+
 <script src="~/ViewJs/Default1/Details.js"></script>
 
 
@@ -22,8 +23,6 @@
 <link rel="stylesheet" href="~/css/datepicker.css">
 <script src="~/js/bootstrap-datepicker.min.js"></script>
 
-
-
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
@@ -32,6 +31,8 @@
                     @using (Html.BeginForm("Details", "AAA", FormMethod.Post, new { @id = "validateForm", @class = "form-horizontal form-bordered form-validate" })) {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.ID)
+                        @Html.HiddenFor(model => model.ObjectID)
                         <div class="control-group">
                             <div class="control-label">
                                 @Html.LabelFor(model => model.string1)
@@ -92,24 +93,8 @@
                             </div>
                             <div class="controls">
                                 <div class="input-xlarge">
-                                    <label class='checkbox-uniformed'>
-                                        @Html.MyCheckBoxFor(model => model.booltry)
-                                        aaaaaa
-                                    </label>
+                                    @Html.MyCheckBoxFor(model => model.booltry)
                                 </div>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label for="textfield" class="control-label">Checkboxes</label>
-                            <div class="controls">
-                                <label class='checkbox-uniformed'>
-                                    <input type="checkbox" name="checkbox" class='uniform-me'>
-                                    Lorem ipsum eiusmod
-                                </label>
-                                <label class='checkbox-uniformed'>
-                                    <input type="checkbox" name="checkbox" class='uniform-me'>
-                                    ipsum eiusmod
-                                </label>
                             </div>
                         </div>
                         <input type="submit" class="button button-basic-blue" value="Submit">

@@ -13,6 +13,9 @@ namespace Test.Models
         [Required]
         public Guid ID { get; set; }
 
+        [Key]
+        public string ObjectID { get; set; }
+
         [ScaffoldColumn(false)]
         [Placeholder("String1")]
         [MinLength(2)]
@@ -44,13 +47,11 @@ namespace Test.Models
 
     public enum EnumTest
     {
-        [Display(Name = "Please select one")]
-        Unkonw = 0,
-        [Display(Name = "Test1")]
-        test1 = 1,
+        请选择 = 0,
+        测试1 = 1,
         [Display(Name = "Test2")]
-        test2 = 2,
+        测试2 = 2,
         [Display(Name = "Test3")]
-        test3 = 3,
+        测试3 = 3,
     }
 }
