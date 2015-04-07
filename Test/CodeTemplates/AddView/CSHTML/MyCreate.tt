@@ -15,10 +15,10 @@
 <#
     MvcTextTemplateHost mvcHost = MvcTemplateHost;
 #>
-@model <#=        mvcHost.ViewDataTypeName #>
+@model <#=mvcHost.ViewDataTypeName #>
 <#
     // The following chained if-statement outputs the file header code and markup for a partial view, a content page, or a regular view.
-if                                                                    (mvcHost.IsPartialView) {
+if (mvcHost.IsPartialView) {
 #>
 
 <#
@@ -26,11 +26,11 @@ if                                                                    (mvcHost.I
 #>
 
 @{
-    ViewBag.Title = "<#=            mvcHost.ViewName#>";
+    ViewBag.Title = "<#=mvcHost.ViewName#>";
 <#
         if (!String.IsNullOrEmpty(mvcHost.MasterPageFile)) {
 #>
-    Layout = "<#=                mvcHost.MasterPageFile#>";
+    Layout = "<#=mvcHost.MasterPageFile#>";
 <#
         }
 #>
@@ -49,14 +49,14 @@ if                                                                    (mvcHost.I
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title><#=            mvcHost.ViewName #></title>
+    <title><#=mvcHost.ViewName #></title>
 </head>
 <body>
 <#
         PushIndent("    ");
     }
 #>
-<script src="~/ViewJs/AAA/<#=        mvcHost.ViewName #>.js"></script>
+<script src="~/ViewJs/AAA/<#=mvcHost.ViewName #>.js"></script>
 
 <div class="container-fluid">
     <div class="row-fluid">

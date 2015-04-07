@@ -106,7 +106,6 @@ namespace System.Web.Mvc
     {
         public int RangeMin { get; set; }
         public int RangeMax { get; set; }
-        public int RangeStep { get; set; }
 
         /// <summary>
         /// Placeholder的信息

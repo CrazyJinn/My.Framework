@@ -16,7 +16,21 @@ namespace Test.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            List<Class1> aList = new List<Class1>();
+            Class1 a = new Class1();
+            a.string2 = "aaa";
+            a.int1 = 1;
+            a.date = new DateTime(2012, 2, 2);
+            a.booltry = true;
+            Class1 b = new Class1();
+            b.string2 = "bbb";
+            b.int1 = 1;
+            b.date = new DateTime(2012, 4, 2);
+            b.booltry = false;
+
+            aList.Add(a);
+            aList.Add(b);
+            return View(aList);
         }
 
         //
@@ -38,7 +52,11 @@ namespace Test.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            List<Class1> aList = new List<Class1>();
+            Class1 a = new Class1();
+            a.string2 = "aaa";
+            aList.Add(a);
+            return View(aList);
         }
 
         //
@@ -90,7 +108,21 @@ namespace Test.Controllers
 
         public ActionResult Delete(int id)
         {
-            return View();
+            List<Class1> aList = new List<Class1>();
+            Class1 a = new Class1();
+            a.string2 = "aaa";
+            a.int1 = 1;
+            a.date = new DateTime(2012, 2, 2);
+            a.booltry = true;
+            Class1 b = new Class1();
+            b.string2 = "bbb";
+            b.int1 = 1;
+            b.date = new DateTime(2012, 4, 2);
+            b.booltry = false;
+
+            aList.Add(a);
+            aList.Add(b);
+            return View(aList);
         }
 
         //
