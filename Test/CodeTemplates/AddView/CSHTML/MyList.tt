@@ -57,6 +57,11 @@ if (!String.IsNullOrEmpty(mvcHost.MasterPageFile)) {
     PushIndent("    ");
 }
 #>
+@*Grid控件使用的Js和Css*@
+<script src="~/js/jquery.dataTables.min.js"></script>
+<script src="~/js/TableTools.min.js"></script>
+<link rel="stylesheet" href="~/css/TableTools.css">
+
 <div class="row-fluid">
     <div class="span12">
         <div class="box">
@@ -80,7 +85,7 @@ foreach (ModelProperty property in properties) {
     }
 }
 #>
-                                <th></th>
+                                <th style="width: 60px;"></th>
                             </tr>
                         </thead>
 
@@ -101,9 +106,19 @@ string pkName = GetPrimaryKeyName(mvcHost.ViewDataType);
 if (pkName == null) {
 #>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                    <div class="btn-group">
+                                        <button class="button button-basic dropdown-toggle" data-toggle="dropdown">
+                                            Action<span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                                            </li>
+                                            <li>
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </td>
 <#
                             }
