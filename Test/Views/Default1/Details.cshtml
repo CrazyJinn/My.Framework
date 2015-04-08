@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="~/css/datepicker.css">
 
 @*自定义验证的Js*@
-<script src="~/ViewJs/AAA/Details.js"></script>
+<script src="~/ViewJs/Default1/Details.js"></script>
 
 <div class="container-fluid">
     <div class="row-fluid">
@@ -27,7 +27,7 @@
                     <span>Details</span>
                 </div>
                 <div class="box-body box-body-nopadding">
-                    @using (Html.BeginForm("Details", "AAA", FormMethod.Post, new { @id = "validateForm", @class = "form-horizontal form-bordered form-validate" })) {
+                    @using (Html.BeginForm("Details", "Default1", FormMethod.Post, new { @id = "validateForm", @class = "form-horizontal form-bordered form-validate" })) {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true)
                         @Html.HiddenFor(model => model.ID)
@@ -96,7 +96,10 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="submit" class="button button-basic-blue" value="Submit">
+                        <div class="form-actions">
+                            <input type="submit" class="button button-basic-blue" value="Submit">
+                            <input type="submit" class="button button-basic" value="Cancel">
+                        </div>
                     }
                 </div>
             </div>
