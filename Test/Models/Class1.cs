@@ -10,11 +10,8 @@ namespace Test.Models
 {
     public class Class1
     {
-        [Required]
-        public Guid ID { get; set; }
-
         [Key]
-        public string ObjectID { get; set; }
+        public Guid hahahah { get; set; }
 
         [ScaffoldColumn(false)]
         [Placeholder("String1")]

@@ -36,7 +36,7 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.booltry)
                                 </th>
-                                <th style="width: 80px;"></th>
+                                <th style="width: 60px;"></th>
                             </tr>
                         </thead>
 
@@ -64,10 +64,10 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li>
-                                                @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                                                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ })
                                             </li>
                                             <li>
-                                                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                                             </li>
                                         </ul>
                                     </div>
