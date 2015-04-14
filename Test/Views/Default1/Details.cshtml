@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @*控件使用的Js与Css*@
@@ -30,8 +31,7 @@
                     @using (Html.BeginForm("Details", "Default1", FormMethod.Post, new { @id = "validateForm", @class = "form-horizontal form-bordered form-validate" })) {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true)
-                        @Html.HiddenFor(model => model.ID)
-                        @Html.HiddenFor(model => model.ObjectID)
+                        @Html.HiddenFor(model => model.hahahah)
                         <div class="control-group">
                             <div class="control-label">
                                 @Html.LabelFor(model => model.string1)
@@ -98,7 +98,7 @@
                         </div>
                         <div class="form-actions">
                             <input type="submit" class="button button-basic-blue" value="Submit">
-                            <input type="submit" class="button button-basic" value="Cancel">
+                            <input type="reset" class="button button-basic" value="Reset" onclick="validator.resetForm();">
                         </div>
                     }
                 </div>

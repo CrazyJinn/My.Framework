@@ -101,9 +101,8 @@ foreach (ModelProperty property in properties) {
 <#
     }
 }
-
 string pkName = GetPrimaryKeyName(mvcHost.ViewDataType);
-if (pkName == null) {
+if (pkName != null) {
 #>
                                 <td>
                                     <div class="btn-group">
@@ -112,16 +111,34 @@ if (pkName == null) {
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li>
-                                                @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.<#= pkName #> })
                                             </li>
                                             <li>
-                                                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.<#= pkName #> })
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
 <#
-                            }
+} else {
+#>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="button button-basic dropdown-toggle" data-toggle="dropdown">
+                                            Action<span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ })
+                                            </li>
+                                            <li>
+                                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+<#
+}
 #>
                             </tr>
                         }

@@ -86,13 +86,13 @@ if (mvcHost.IsPartialView) {
     foreach (ModelProperty property in GetModelProperties(mvcHost.ViewDataType)) {
         if (property.IsPrimaryKey) {
 #>
-                        @Html.HiddenFor(model => model.<#=                property.Name #>)
+                        @Html.HiddenFor(model => model.<#=property.Name #>)
 <#
         } else {
             #>
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(model => model.<#=                property.Name #>)
+                                @Html.LabelFor(model => model.<#=property.Name #>)
                             </div>
                             <div class="controls">
 <#
@@ -100,25 +100,25 @@ if (mvcHost.IsPartialView) {
 #>
                                 <div class="input-append input-prepend">
                                     <span class="add-on">￥</span>
-                                    @Html.MyTextBoxFor(model => model.<#=                    property.Name #>)
+                                    @Html.MyTextBoxFor(model => model.<#=property.Name #>)
                                     <span class="add-on">.00</span>
                                 </div>
 <#
             } else if (property.IsEnum){
 #>
                                 <div class="input-xlarge">
-                                    @Html.MyDropDownListFor(model => model.<#=                    property.Name #>)
+                                    @Html.MyDropDownListFor(model => model.<#=property.Name #>)
                                 </div>
 <#
             } else if (property.IsBool){
 #>
                                 <div class="input-xlarge">
-                                    @Html.MyCheckBoxFor(model => model.<#=                    property.Name #>)
+                                    @Html.MyCheckBoxFor(model => model.<#=property.Name #>)
                                 </div>
 <#
             } else {
 #>
-                                @Html.MyTextBoxFor(model => model.<#=                    property.Name #>)
+                                @Html.MyTextBoxFor(model => model.<#=property.Name #>)
 <#
             }
 #>
@@ -128,7 +128,10 @@ if (mvcHost.IsPartialView) {
         }
     }
 #>
-                        <input type="submit" class="button button-basic-blue" value="Submit">
+                        <div class="form-actions">
+                            <input type="submit" class="button button-basic-blue" value="Submit">
+                            <input type="reset" class="button button-basic" value="Reset" onclick="validator.resetForm();">
+                        </div>
                     }
                 </div>
             </div>
